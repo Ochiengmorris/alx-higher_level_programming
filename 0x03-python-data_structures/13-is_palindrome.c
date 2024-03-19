@@ -1,45 +1,35 @@
+#include <stddef.h>
+#include <stdio.h>
 #include "lists.h"
+
 /**
- * is_palindrome - function that check for palindrom
- * @head:list
- *Return: 0 or 1
+ * is_palindrome - check if a linked list is a palindrome
+ *
+ * @head: first node
+ *
+ * Return: 1 if success
+ *         0 if failed
  */
 int is_palindrome(listint_t **head)
 {
-	const listint_t *current;
-	int len;
-	int i, j;
-	int arr[10000];
+	listint_t *tmp = *head;
+	int values[2048], i = 0, cLoop, limit;
 
-	if (*head == NULL)
-		return (1);
-	current = *head;
-	len = 0;
-	while (current != NULL)
-	{
-		current = current->next;
-		len++;
-	}
-	if (len == 1)
+	if (head == NULL || *head == NULL)
 		return (1);
 
-	current = *head;
-	i = 0;
-	while (current != NULL)
+	while (tmp != NULL)
 	{
-		arr[i] = current->n;
+		values[i] = tmp->n;
 		i++;
-		current = current->next;
+		tmp = tmp->next;
 	}
-	j = 0;
-	i--;
-	len--;
-	while (i >= (len / 2))
-	{
-		if (arr[i] != arr[j])
+
+	limit = (i % 2 == 0) ? i / 2 : (i + 1) / 2;
+
+	for (cLoop = 0; cLoop < limit; cLoop++)
+		if (values[cLoop] != values[i - 1 - cLoop])
 			return (0);
-		i--;
-		j++;
-	}
+
 	return (1);
 }
